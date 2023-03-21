@@ -19,11 +19,14 @@ namespace DatabaseInterop
         }
 
         public MainContext(IConfiguration _config) : base(GetConnectionString(_config)) {
+
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new UserModalMap()); 
+            modelBuilder.Configurations.Add(new UserModalMap());
+            modelBuilder.Configurations.Add(new PostModalMap());
+            modelBuilder.Configurations.Add(new PostLikeModalMap());
         }
 
 

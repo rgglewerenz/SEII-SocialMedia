@@ -4,6 +4,7 @@ using DTO;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -109,5 +110,45 @@ namespace DataAcess
             }
         }
 
+        public List<PostTransferModal> GetRecentPosts(int page_count, int page_size)
+        {
+            return UnitOfWork.PostRepository.GetQuery()
+                    .OrderByDescending(x => x.PostID)
+                        .Skip(page_size * page_count)
+                            .Take(page_size)
+                                .ToImmutableList()
+                                    .Select(x => GetPostByID(x.PostID))
+                                        .ToList();
+        }
+
+        public int GetMaxPostPageCount(int page_size)
+        {
+            return (int) Math.Ceiling((double)UnitOfWork.PostRepository.GetQuery().Count() / (double)page_size);
+        }
+
+        public PostTransferModal EditPost(PostTransferModal postTransferModal)
+        {
+            try
+            {
+                StartTransaction();
+
+                var post = GetPostModalByID(postTransferModal.PostID);
+
+                post.ImageURL = postTransferModal.ImageURL;
+                post.Caption = postTransferModal.Caption;
+
+                UnitOfWork.PostRepository.Update(post);
+
+                UnitOfWork.Save();
+
+                CommitTransaction();
+
+                return GetPostByID(postTransferModal.PostID);
+            }catch(Exception ex)
+            {
+                RollbackTransaction();
+                throw ex;
+            }
+        }
     }
 }

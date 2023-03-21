@@ -29,9 +29,24 @@ namespace DatabaseBAL
             return _postDA.DeletePostByID(postID);
         }
 
+        public PostTransferModal EditPost(PostTransferModal postTransferModal)
+        {
+            return _postDA.EditPost(postTransferModal);
+        }
+
+        public int GetMaxPostPageCount(int page_size)
+        {
+            return _postDA.GetMaxPostPageCount(page_size);
+        }
+
         public PostTransferModal GetPostByID(int postID)
         {
             return _postDA.GetPostByID(postID);
+        }
+
+        public List<PostTransferModal> GetRecentPosts(int page_count, int page_size)
+        {
+            return _postDA.GetRecentPosts(page_count, page_size);
         }
     }
 }
