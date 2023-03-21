@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
-using DatabaseInterop.Models.Mapping;
-using DatabaseInterop.Models;
-using Microsoft.Extensions.Configuration;
 using DatabaseInterop.Modals.Mappings;
+using DatabaseInterop.Modals;
+using Microsoft.Extensions.Configuration;
 
 namespace DatabaseInterop
 {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Controllers
 {
-    [Route("api/{controller}")]
+    [Route("api/[controller]")]
     public class UserController : Controller
     {
         private readonly UserBAL _userBAL;

@@ -1,5 +1,4 @@
 ﻿using DatabaseInterop.Modals;
-using DatabaseInterop.Models;
 using DTO;
 using Microsoft.Extensions.Configuration;
 using System;

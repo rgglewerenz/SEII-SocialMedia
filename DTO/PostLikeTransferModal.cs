@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class PostLikeModal
+    public class PostLikeTransferModal
     {
         public int UserID { get; set; }
         public int LikeID { get; set; }

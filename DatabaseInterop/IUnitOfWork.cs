@@ -1,5 +1,4 @@
 ﻿using DatabaseInterop.Modals;
-using DatabaseInterop.Models;
 using DTO;
 using System;
 using System.Collections.Generic;
