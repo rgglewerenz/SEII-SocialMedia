@@ -2,7 +2,7 @@
 using DTO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.Controllers
+namespace PetSocialMediaAPI.Controllers
 {
     [Route("api/[controller]")]
     public class UserController : Controller
