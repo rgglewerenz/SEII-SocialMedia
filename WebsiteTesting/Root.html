@@ -4,16 +4,26 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./js/Tools.js"></script>
     <script src="./js/UserInterop.js"></script>
     <script src="./js/AuthInterop.js"></script>
     <script src="./js/PostInterop.js"></script>
+    
 </head>
 <body>
 
-    <button onclick="GetUsers()" >
+    <button onclick="_userController.GetUsers()" >
         Get Users
     </button>
 
+    <button onclick="_postController.editPost('no data', 'no data', 6)" >
+        Check Post
+    </button>
+
+    <button onclick="_authController.authenticateUser('rgglewerenz@gmail.com', 'ThisisatestPassword')" >
+        Check Auth
+    </button>
 
 </body>
 </html>

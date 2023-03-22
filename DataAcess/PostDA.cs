@@ -134,6 +134,11 @@ namespace DataAcess
 
                 var post = GetPostModalByID(postTransferModal.PostID);
 
+                if(post == null)
+                {
+                    throw new Exception($"Unable to find post with the id {postTransferModal.PostID}");
+                }
+
                 post.ImageURL = postTransferModal.ImageURL;
                 post.Caption = postTransferModal.Caption;
 

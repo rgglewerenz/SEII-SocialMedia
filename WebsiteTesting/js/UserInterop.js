@@ -1,27 +1,68 @@
-const baseUrl = "https://localhost:7122/api/";
+class UserController {
+  constructor() {
+    // Set the base URL for the API
+    this.baseUrl = "https://localhost:7122/api/User";
+  }
 
-async function getUsers() {
-    const response = await fetch(baseUrl + "user/GetUsers");
-    const data = await response.json();
-    return data;
-}
-
-async function getUserByID(userID) {
-    const response = await fetch(baseUrl + `user/GetUserByID?userID=${userID}`);
-    const data = await response.json();
-    return data;
-}
-
-async function createUser(email, password) {
-    const response = await fetch(baseUrl + `user/CreateUser?email=${email}&password=${password}`, {
-        method: "POST"
+  // Get all users
+  getUsers() {
+    $.ajax({
+      url: `${this.baseUrl}/GetUsers`,
+      method: "GET",
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
     });
-    const data = await response.json();
-    return data;
+  }
+
+  // Get user by ID
+  getUserById(userId) {
+    $.ajax({
+      url: `${this.baseUrl}/GetUserByID`,
+      method: "GET",
+      data: { userID: userId },
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
+    });
+  }
+
+  // Create user
+  createUser(email, password) {
+    $.ajax({
+      url: `${this.baseUrl}/CreateUser`,
+      method: "POST",
+      data: { email: email, password: password },
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
+    });
+  }
 }
 
-async function GetUsers() {
-    const response = await getUsers();
 
-    console.log(response);
-}
+var _userController = new UserController();

@@ -1,52 +1,129 @@
-async function getPostByID(postID) {
-    const response = await fetch(baseUrl + `post/GetPostByID?postID=${postID}`);
-    const data = await response.json();
-    return data;
-}
+class PostController {
+  constructor() {
+    // Set the base URL for the API
+    this.baseUrl = "https://localhost:7122/api/Post";
+  }
 
-async function getRecentPosts(page_count = 0, page_size = 10) {
-    const response = await fetch(baseUrl + `post/GetRecentPosts?page_count=${page_count}&page_size=${page_size}`);
-    const data = await response.json();
-    return data;
-}
-
-async function createPost(caption, image_url, userID) {
-    const response = await fetch(baseUrl + `post/CreatePost`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            Caption: caption,
-            ImageURL: image_url,
-            UsertID: userID
-        })
+  // Get post by ID
+  getPostById(postId) {
+    $.ajax({
+      url: `${this.baseUrl}/GetPostByID`,
+      method: "GET",
+      data: { postID: postId },
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
     });
-    const data = await response.json();
-    return data;
-}
+  }
 
-async function editPost(caption, image_url, postID) {
-    const response = await fetch(baseUrl + `post/EditPost`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            Caption: caption,
-            ImageURL: image_url,
-            PostID: postID
-        })
+  // Get max post page count
+  getMaxPostPageCount(pageSize) {
+    $.ajax({
+      url: `${this.baseUrl}/GetMaxPostPageCount`,
+      method: "GET",
+      data: { page_size: pageSize },
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
     });
-    const data = await response.json();
-    return data;
-}
+  }
 
-async function deletePost(postID) {
-    const response = await fetch(baseUrl + `post/DeletePost?postID=${postID}`, {
-        method: "DELETE"
+  // Get recent posts
+  getRecentPosts(pageCount, pageSize) {
+    $.ajax({
+      url: `${this.baseUrl}/GetRecentPosts`,
+      method: "GET",
+      data: { page_count: pageCount, page_size: pageSize },
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
     });
-    const data = await response.json();
-    return data;
+  }
+
+  // Create post
+  createPost(caption, imageUrl, userId) {
+    $.ajax({
+      url: `${this.baseUrl}/CreatePost`,
+      method: "POST",
+      data: { caption: caption, image_url: imageUrl, userID: userId },
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
+    });
+  }
+
+  // Edit post
+  editPost(caption, imageUrl, postId) {
+    $.ajax({
+      url: `${this.baseUrl}/EditPost`,
+      method: "POST",
+      data: { caption: caption, image_url: imageUrl, postID: postId },
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
+    });
+  }
+
+  // Delete post
+  deletePost(postId) {
+    $.ajax({
+      url: `${this.baseUrl}/DeletePost`,
+      method: "DELETE",
+      data: { postID: postId },
+      success: function(data) {
+        console.log(data)
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        if(errorThrown == "Internal Server Error"){
+          console.error(getInternalServerErrorString(xhr));
+        }
+        else{
+          console.error("Unknown error: ", errorThrown, xhr)
+        }
+      }
+    });
+  }
 }
 
+
+var _postController = new PostController();
