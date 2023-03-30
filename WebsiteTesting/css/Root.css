@@ -1,0 +1,9 @@
+.title{
+    margin: 10px 0px 10px 0px;
+}
+
+.btn-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

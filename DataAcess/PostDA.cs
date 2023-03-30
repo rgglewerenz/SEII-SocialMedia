@@ -155,5 +155,75 @@ namespace DataAcess
                 throw ex;
             }
         }
+
+        public bool LikePost(int postID, int userID)
+        {
+            if (UnitOfWork.UserRepository.GetQuery().Where(x => x.UserID == userID).Count() == 0)
+            {
+                throw new Exception($"Unable to find user with id: {userID}");
+            }
+            if (UnitOfWork.PostRepository.GetQuery().Where(x => x.PostID == postID && x.UserID != userID).Count() == 0)
+            {
+                throw new Exception($"Unable to find post other user's post with id: {postID}");
+            }
+            if(UnitOfWork.PostLikeRepository.GetQuery().Where(x => x.PostID == postID && x.UserID == userID).Count() != 0)
+            {
+                throw new Exception($"PostLike with postid = {postID} && userid = {userID} already exists ");
+            }
+
+
+            UnitOfWork.PostLikeRepository.Insert(new PostLikeModal()
+            {
+                PostID = postID,
+                UserID = userID
+            });
+
+
+            UnitOfWork.Save();
+
+            return true;
+        }
+
+        public bool UnlikePost(int postID, int userID)
+        {
+            if (UnitOfWork.UserRepository.GetQuery().Where(x => x.UserID == userID).Count() == 0)
+            {
+                throw new Exception($"Unable to find user with id: {userID}");
+            }
+            if (UnitOfWork.PostRepository.GetQuery().Where(x => x.PostID == postID).Count() == 0)
+            {
+                throw new Exception($"Unable to find post with id: {postID}");
+            }
+            
+            var like = UnitOfWork.PostLikeRepository.GetQuery().Where(x => x.PostID == postID && x.UserID == userID).FirstOrDefault();
+            
+            if(like == null)
+            {
+                throw new Exception($"Unable to find like matching userID = {userID} && postID = {postID}");
+            }
+
+            UnitOfWork.PostLikeRepository.Delete(like);
+
+            UnitOfWork.Save();
+
+            return true;
+        }
+
+        public List<PostTransferModal> GetRecentPosts(int page_count, int page_size, int userID)
+        {
+            return UnitOfWork.PostRepository.GetQuery()
+                .Where(x => x.UserID != userID)
+                    .OrderByDescending(x => x.PostID)
+                        .Skip(page_size * page_count)
+                            .Take(page_size)
+                                .ToImmutableList()
+                                    .Select(x => GetPostByID(x.PostID))
+                                        .ToList();
+        }
+
+        public int GetMaxPostPageCount(int page_size, int userID)
+        {
+            return (int)Math.Ceiling((double)UnitOfWork.PostRepository.GetQuery().Where(x => x.UserID != userID).Count() / (double)page_size);
+        }
     }
 }

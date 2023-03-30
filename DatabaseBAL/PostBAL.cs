@@ -39,6 +39,11 @@ namespace DatabaseBAL
             return _postDA.GetMaxPostPageCount(page_size);
         }
 
+        public int GetMaxPostPageCount(int page_size, int userID)
+        {
+            return _postDA.GetMaxPostPageCount(page_size, userID);
+        }
+
         public PostTransferModal GetPostByID(int postID)
         {
             return _postDA.GetPostByID(postID);
@@ -47,6 +52,21 @@ namespace DatabaseBAL
         public List<PostTransferModal> GetRecentPosts(int page_count, int page_size)
         {
             return _postDA.GetRecentPosts(page_count, page_size);
+        }
+
+        public List<PostTransferModal> GetRecentPosts(int page_count, int page_size, int userID)
+        {
+            return _postDA.GetRecentPosts(page_count, page_size, userID);
+        }
+
+        public bool LikePost(int postID, int userID)
+        {
+            return _postDA.LikePost(postID, userID);
+        }
+
+        public bool UnlikePost(int postID, int userID)
+        {
+            return _postDA.UnlikePost(postID, userID);
         }
     }
 }

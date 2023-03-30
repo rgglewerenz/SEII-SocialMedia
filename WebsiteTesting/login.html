@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title> Login </title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./js/Tools.js"></script>
     <script src="./js/AuthInterop.js"></script>
@@ -47,12 +47,22 @@
     
     <script>
         function HandleLogin(){
-            const email = document.getElementById("emailInput").value;
+            const email = document.getElementById("emailInput").value.trim();
             const password = document.getElementById("passwordInput").value;
-            _authController.authenticateUser(email, password);
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                alert("Invalid email address!");
+                return;
+            } 
+
+            _authController.authenticateUser(email, password, function(){
+		        window.location.href = "/";
+            });
+
+
+
         }
-
-
     </script>
 
 </head>

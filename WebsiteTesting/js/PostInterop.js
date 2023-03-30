@@ -25,40 +25,46 @@ class PostController {
   }
 
   // Get max post page count
-  getMaxPostPageCount(pageSize) {
+  getMaxPostPageCount(pageSize, onsucess, onerror) {
     $.ajax({
       url: `${this.baseUrl}/GetMaxPostPageCount`,
       method: "GET",
       data: { page_size: pageSize },
       success: function(data) {
-        console.log(data)
+        console.log(data);
+        onsucess(data);
       },
       error: function(xhr, textStatus, errorThrown) {
         if(errorThrown == "Internal Server Error"){
           console.error(getInternalServerErrorString(xhr));
+          onerror(getInternalServerErrorString(xhr))
         }
         else{
           console.error("Unknown error: ", errorThrown, xhr)
+          onerror(errorThrown);
         }
       }
     });
   }
 
   // Get recent posts
-  getRecentPosts(pageCount, pageSize) {
+  getRecentPosts(pageCount, pageSize, onsucess, onerror) {
     $.ajax({
       url: `${this.baseUrl}/GetRecentPosts`,
       method: "GET",
       data: { page_count: pageCount, page_size: pageSize },
       success: function(data) {
-        console.log(data)
+        console.log(data);
+        onsucess(data);
       },
       error: function(xhr, textStatus, errorThrown) {
         if(errorThrown == "Internal Server Error"){
           console.error(getInternalServerErrorString(xhr));
+          onerror(getInternalServerErrorString(xhr))
         }
         else{
           console.error("Unknown error: ", errorThrown, xhr)
+          onerror(errorThrown);
         }
       }
     });

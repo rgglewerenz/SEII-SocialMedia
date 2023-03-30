@@ -34,6 +34,31 @@ namespace PetSocialMediaAPI.Controllers
             return _postBAL.GetRecentPosts(page_count, page_size);
         }
 
+        [HttpGet("GetMaxPostPageCountWithID")]
+        public int GetMaxPostPageCount(int page_size, int userID)
+        {
+            return _postBAL.GetMaxPostPageCount(page_size, userID);
+        }
+
+        [HttpGet("GetRecentPostsWithID")]
+        public List<PostTransferModal> GetRecentPosts(int userID, int page_count = 0, int page_size = 10)
+        {
+            return _postBAL.GetRecentPosts(page_count, page_size, userID);
+        }
+
+
+        [HttpGet("LikePost")]
+        public bool LikePost(int postID, int userID)
+        {
+            return _postBAL.LikePost(postID, userID);
+        }
+
+        [HttpGet("UnlikePost")]
+        public bool UnlikePost(int postID, int userID)
+        {
+            return _postBAL.UnlikePost(postID, userID);
+        }
+
         #endregion GET
 
         #region POST
