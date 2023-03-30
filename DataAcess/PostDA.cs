@@ -158,30 +158,44 @@ namespace DataAcess
 
         public bool LikePost(int postID, int userID)
         {
-            if (UnitOfWork.UserRepository.GetQuery().Where(x => x.UserID == userID).Count() == 0)
+            try
             {
-                throw new Exception($"Unable to find user with id: {userID}");
+                StartTransaction();
+
+                if (UnitOfWork.UserRepository.GetQuery().Where(x => x.UserID == userID).Count() == 0)
+                {
+                    throw new Exception($"Unable to find user with id: {userID}");
+                }
+                if (UnitOfWork.PostRepository.GetQuery().Where(x => x.PostID == postID && x.UserID != userID).Count() == 0)
+                {
+                    throw new Exception($"Unable to find post other user's post with id: {postID}");
+                }
+                if (UnitOfWork.PostLikeRepository.GetQuery().Where(x => x.PostID == postID && x.UserID == userID).Count() != 0)
+                {
+                    throw new Exception($"PostLike with postid = {postID} && userid = {userID} already exists ");
+                }
+
+
+                var item = new PostLikeModal()
+                {
+                    PostID = postID,
+                    UserID = userID
+                };
+
+                UnitOfWork.PostLikeRepository.Insert(item);
+
+
+                UnitOfWork.Save();
+
+
+                CommitTransaction();
+                return true;
+            }catch(Exception ex)
+            {
+                RollbackTransaction();
+                throw ex;
             }
-            if (UnitOfWork.PostRepository.GetQuery().Where(x => x.PostID == postID && x.UserID != userID).Count() == 0)
-            {
-                throw new Exception($"Unable to find post other user's post with id: {postID}");
-            }
-            if(UnitOfWork.PostLikeRepository.GetQuery().Where(x => x.PostID == postID && x.UserID == userID).Count() != 0)
-            {
-                throw new Exception($"PostLike with postid = {postID} && userid = {userID} already exists ");
-            }
-
-
-            UnitOfWork.PostLikeRepository.Insert(new PostLikeModal()
-            {
-                PostID = postID,
-                UserID = userID
-            });
-
-
-            UnitOfWork.Save();
-
-            return true;
+            
         }
 
         public bool UnlikePost(int postID, int userID)

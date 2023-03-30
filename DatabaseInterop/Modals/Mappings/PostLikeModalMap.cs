@@ -10,8 +10,8 @@ namespace DatabaseInterop.Modals.Mappings
     public class PostLikeModalMap : EntityTypeConfiguration<PostLikeModal>
     {
         public PostLikeModalMap() {
-            this.HasKey(t => t.PostID);
-            this.Property(t => t.LikeID).IsRequired();
+            this.HasKey(t => t.LikeID);
+            this.Property(t => t.PostID).IsRequired();
             this.Property(t => t.UserID).IsRequired();
 
             this.ToTable("post_likes");
