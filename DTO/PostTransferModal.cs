@@ -12,7 +12,7 @@ namespace DTO
         public int PostID { get; set; }
         public string ImageURL { get; set; }
         public string Caption { get; set; }
-
+        public bool UserLike { get; set; }
         public int LikeCount { get; set; }
     }
 }

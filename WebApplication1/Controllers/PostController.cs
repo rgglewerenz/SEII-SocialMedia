@@ -35,13 +35,13 @@ namespace PetSocialMediaAPI.Controllers
         }
 
         [HttpGet("GetMaxPostPageCountWithID")]
-        public int GetMaxPostPageCount(int page_size, int userID)
+        public int GetMaxPostPageCountWithID(int page_size, int userID)
         {
             return _postBAL.GetMaxPostPageCount(page_size, userID);
         }
 
         [HttpGet("GetRecentPostsWithID")]
-        public List<PostTransferModal> GetRecentPosts(int userID, int page_count = 0, int page_size = 10)
+        public List<PostTransferModal> GetRecentPostsWithID(int userID, int page_count = 0, int page_size = 10)
         {
             return _postBAL.GetRecentPosts(page_count, page_size, userID);
         }

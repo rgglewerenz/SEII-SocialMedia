@@ -45,6 +45,29 @@ namespace DataAcess
 
         }
 
+        public PostTransferModal GetPostByIDWithUserID(int postID, int UserID)
+        {
+            var post = GetPostModalByID(postID);
+
+            if (post == null)
+            {
+                throw new Exception($"Unable to find post with the id {postID}");
+            }
+
+            var postLikeCount = UnitOfWork.PostLikeRepository.GetQuery().Where(x => x.PostID == postID).Count();
+
+            return new PostTransferModal()
+            {
+                PostID = postID,
+                Caption = post.Caption,
+                ImageURL = post.ImageURL,
+                UsertID = post.UserID,
+                LikeCount = postLikeCount,
+                UserLike = UnitOfWork.PostLikeRepository.GetQuery().Where(x => postID == x.PostID && UserID == x.UserID).Count() != 0
+            };
+
+        }
+
         public PostTransferModal CreatePost(PostTransferModal newPost)
         {
             try
@@ -231,7 +254,7 @@ namespace DataAcess
                         .Skip(page_size * page_count)
                             .Take(page_size)
                                 .ToImmutableList()
-                                    .Select(x => GetPostByID(x.PostID))
+                                    .Select(x => GetPostByIDWithUserID(x.PostID, userID))
                                         .ToList();
         }
 
