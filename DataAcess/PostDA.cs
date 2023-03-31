@@ -44,8 +44,7 @@ namespace DataAcess
             };
 
         }
-
-        public PostTransferModal GetPostByIDWithUserID(int postID, int UserID)
+        public PostTransferModal GetPostByIDWithUserID(int postID, int userID)
         {
             var post = GetPostModalByID(postID);
 
@@ -62,12 +61,11 @@ namespace DataAcess
                 Caption = post.Caption,
                 ImageURL = post.ImageURL,
                 UsertID = post.UserID,
-                LikeCount = postLikeCount,
-                UserLike = UnitOfWork.PostLikeRepository.GetQuery().Where(x => postID == x.PostID && UserID == x.UserID).Count() != 0
+                UserLike = UnitOfWork.PostLikeRepository.GetQuery().Where(x => x.PostID == postID && userID == x.UserID).Count() != 0,
+                LikeCount = postLikeCount
             };
 
         }
-
         public PostTransferModal CreatePost(PostTransferModal newPost)
         {
             try
